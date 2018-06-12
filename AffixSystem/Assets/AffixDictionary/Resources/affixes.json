@@ -1,0 +1,764 @@
+{
+   "list" : [
+      {
+         "name" : "Hale",
+         "item_level" : 1,
+         "min_range" : 3,
+         "max_range" : 9,
+         "type" : "Prefix",
+         "modifier" : "Health",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Healthy",
+         "item_level" : 5,
+         "min_range" : 10,
+         "max_range" : 19,
+         "type" : "Prefix",
+         "modifier" : "Health",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Sanguine",
+         "item_level" : 11,
+         "min_range" : 20,
+         "max_range" : 29,
+         "type" : "Prefix",
+         "modifier" : "Health",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Stalwart",
+         "item_level" : 18,
+         "min_range" : 30,
+         "max_range" : 39,
+         "type" : "Prefix",
+         "modifier" : "Health",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Stout",
+         "item_level" : 24,
+         "min_range" : 40,
+         "max_range" : 49,
+         "type" : "Prefix",
+         "modifier" : "Health",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Robust",
+         "item_level" : 30,
+         "min_range" : 50,
+         "max_range" : 59,
+         "type" : "Prefix",
+         "modifier" : "Health",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Rotund",
+         "item_level" : 36,
+         "min_range" : 60,
+         "max_range" : 69,
+         "type" : "Prefix",
+         "modifier" : "Health",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Virile",
+         "item_level" : 44,
+         "min_range" : 70,
+         "max_range" : 79,
+         "type" : "Prefix",
+         "modifier" : "Health",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Athlete's",
+         "item_level" : 54,
+         "min_range" : 80,
+         "max_range" : 89,
+         "type" : "Prefix",
+         "modifier" : "Health",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Fecund",
+         "item_level" : 64,
+         "min_range" : 90,
+         "max_range" : 99,
+         "type" : "Prefix",
+         "modifier" : "Health",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Vigorous",
+         "item_level" : 73,
+         "min_range" : 100,
+         "max_range" : 109,
+         "type" : "Prefix",
+         "modifier" : "Health",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Rapturous",
+         "item_level" : 81,
+         "min_range" : 110,
+         "max_range" : 119,
+         "type" : "Prefix",
+         "modifier" : "Health",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Prime",
+         "item_level" : 86,
+         "min_range" : 120,
+         "max_range" : 129,
+         "type" : "Prefix",
+         "modifier" : "Health",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Beryl",
+         "item_level" : 1,
+         "min_range" : 15,
+         "max_range" : 19,
+         "type" : "Prefix",
+         "modifier" : "Mana",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Cobalt",
+         "item_level" : 11,
+         "min_range" : 20,
+         "max_range" : 24,
+         "type" : "Prefix",
+         "modifier" : "Mana",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Azure",
+         "item_level" : 17,
+         "min_range" : 25,
+         "max_range" : 29,
+         "type" : "Prefix",
+         "modifier" : "Mana",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Sapphire",
+         "item_level" : 23,
+         "min_range" : 30,
+         "max_range" : 34,
+         "type" : "Prefix",
+         "modifier" : "Mana",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Cerulean",
+         "item_level" : 29,
+         "min_range" : 35,
+         "max_range" : 39,
+         "type" : "Prefix",
+         "modifier" : "Mana",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Aqua",
+         "item_level" : 35,
+         "min_range" : 40,
+         "max_range" : 44,
+         "type" : "Prefix",
+         "modifier" : "Mana",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Opalescent",
+         "item_level" : 42,
+         "min_range" : 45,
+         "max_range" : 49,
+         "type" : "Prefix",
+         "modifier" : "Mana",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Gentian",
+         "item_level" : 51,
+         "min_range" : 50,
+         "max_range" : 54,
+         "type" : "Prefix",
+         "modifier" : "Mana",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Chalybeous",
+         "item_level" : 60,
+         "min_range" : 55,
+         "max_range" : 59,
+         "type" : "Prefix",
+         "modifier" : "Mana",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Mazarine",
+         "item_level" : 69,
+         "min_range" : 60,
+         "max_range" : 64,
+         "type" : "Prefix",
+         "modifier" : "Mana",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Blue",
+         "item_level" : 75,
+         "min_range" : 65,
+         "max_range" : 68,
+         "type" : "Prefix",
+         "modifier" : "Mana",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "Zaffre",
+         "item_level" : 81,
+         "min_range" : 69,
+         "max_range" : 73,
+         "type" : "Prefix",
+         "modifier" : "Mana",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Whelpling",
+         "item_level" : 1,
+         "min_range" : 6,
+         "max_range" : 11,
+         "type" : "Suffix",
+         "modifier" : "ResistanceFire",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Salamander",
+         "item_level" : 12,
+         "min_range" : 12,
+         "max_range" : 17,
+         "type" : "Suffix",
+         "modifier" : "ResistanceFire",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Drake",
+         "item_level" : 24,
+         "min_range" : 18,
+         "max_range" : 23,
+         "type" : "Suffix",
+         "modifier" : "ResistanceFire",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Kiln",
+         "item_level" : 36,
+         "min_range" : 24,
+         "max_range" : 29,
+         "type" : "Suffix",
+         "modifier" : "ResistanceFire",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Furnace",
+         "item_level" : 45,
+         "min_range" : 30,
+         "max_range" : 35,
+         "type" : "Suffix",
+         "modifier" : "ResistanceFire",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Volcano",
+         "item_level" : 60,
+         "min_range" : 36,
+         "max_range" : 41,
+         "type" : "Suffix",
+         "modifier" : "ResistanceFire",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Magma",
+         "item_level" : 72,
+         "min_range" : 42,
+         "max_range" : 45,
+         "type" : "Suffix",
+         "modifier" : "ResistanceFire",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of Tzteosh",
+         "item_level" : 84,
+         "min_range" : 46,
+         "max_range" : 48,
+         "type" : "Suffix",
+         "modifier" : "ResistanceFire",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Inuit",
+         "item_level" : 1,
+         "min_range" : 6,
+         "max_range" : 11,
+         "type" : "Suffix",
+         "modifier" : "ResistanceCold",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Seal",
+         "item_level" : 14,
+         "min_range" : 12,
+         "max_range" : 17,
+         "type" : "Suffix",
+         "modifier" : "ResistanceCold",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Penguin",
+         "item_level" : 26,
+         "min_range" : 18,
+         "max_range" : 23,
+         "type" : "Suffix",
+         "modifier" : "ResistanceCold",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Yeti",
+         "item_level" : 38,
+         "min_range" : 24,
+         "max_range" : 29,
+         "type" : "Suffix",
+         "modifier" : "ResistanceCold",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Walrus",
+         "item_level" : 50,
+         "min_range" : 30,
+         "max_range" : 35,
+         "type" : "Suffix",
+         "modifier" : "ResistanceCold",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Polar Bear",
+         "item_level" : 60,
+         "min_range" : 36,
+         "max_range" : 41,
+         "type" : "Suffix",
+         "modifier" : "ResistanceCold",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Ice",
+         "item_level" : 72,
+         "min_range" : 42,
+         "max_range" : 45,
+         "type" : "Suffix",
+         "modifier" : "ResistanceCold",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of Haast",
+         "item_level" : 84,
+         "min_range" : 46,
+         "max_range" : 48,
+         "type" : "Suffix",
+         "modifier" : "ResistanceCold",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Cloud",
+         "item_level" : 1,
+         "min_range" : 6,
+         "max_range" : 11,
+         "type" : "Suffix",
+         "modifier" : "ResistanceLightning",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Squall",
+         "item_level" : 13,
+         "min_range" : 12,
+         "max_range" : 17,
+         "type" : "Suffix",
+         "modifier" : "ResistanceLightning",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Storm",
+         "item_level" : 25,
+         "min_range" : 18,
+         "max_range" : 23,
+         "type" : "Suffix",
+         "modifier" : "ResistanceLightning",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Thunderhead",
+         "item_level" : 37,
+         "min_range" : 24,
+         "max_range" : 29,
+         "type" : "Suffix",
+         "modifier" : "ResistanceLightning",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Tempest",
+         "item_level" : 49,
+         "min_range" : 30,
+         "max_range" : 35,
+         "type" : "Suffix",
+         "modifier" : "ResistanceLightning",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Maelstrom",
+         "item_level" : 60,
+         "min_range" : 36,
+         "max_range" : 41,
+         "type" : "Suffix",
+         "modifier" : "ResistanceLightning",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Lightning",
+         "item_level" : 72,
+         "min_range" : 42,
+         "max_range" : 45,
+         "type" : "Suffix",
+         "modifier" : "ResistanceLightning",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of Ephij",
+         "item_level" : 84,
+         "min_range" : 46,
+         "max_range" : 48,
+         "type" : "Suffix",
+         "modifier" : "ResistanceLightning",
+         "modifier_type" : "Percentage",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Brute",
+         "item_level" : 1,
+         "min_range" : 8,
+         "max_range" : 12,
+         "type" : "Suffix",
+         "modifier" : "Strength",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Wrestler",
+         "item_level" : 11,
+         "min_range" : 13,
+         "max_range" : 17,
+         "type" : "Suffix",
+         "modifier" : "Strength",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Bear",
+         "item_level" : 22,
+         "min_range" : 18,
+         "max_range" : 22,
+         "type" : "Suffix",
+         "modifier" : "Strength",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Lion",
+         "item_level" : 33,
+         "min_range" : 23,
+         "max_range" : 27,
+         "type" : "Suffix",
+         "modifier" : "Strength",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Gorilla",
+         "item_level" : 44,
+         "min_range" : 28,
+         "max_range" : 32,
+         "type" : "Suffix",
+         "modifier" : "Strength",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Goliath",
+         "item_level" : 55,
+         "min_range" : 33,
+         "max_range" : 37,
+         "type" : "Suffix",
+         "modifier" : "Strength",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Leviathan",
+         "item_level" : 66,
+         "min_range" : 38,
+         "max_range" : 42,
+         "type" : "Suffix",
+         "modifier" : "Strength",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Titan",
+         "item_level" : 74,
+         "min_range" : 43,
+         "max_range" : 50,
+         "type" : "Suffix",
+         "modifier" : "Strength",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Gods",
+         "item_level" : 82,
+         "min_range" : 51,
+         "max_range" : 55,
+         "type" : "Suffix",
+         "modifier" : "Strength",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Mongoose",
+         "item_level" : 1,
+         "min_range" : 8,
+         "max_range" : 12,
+         "type" : "Suffix",
+         "modifier" : "Dexterity",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Lynx",
+         "item_level" : 11,
+         "min_range" : 13,
+         "max_range" : 17,
+         "type" : "Suffix",
+         "modifier" : "Dexterity",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Fox",
+         "item_level" : 22,
+         "min_range" : 18,
+         "max_range" : 22,
+         "type" : "Suffix",
+         "modifier" : "Dexterity",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Falcon",
+         "item_level" : 33,
+         "min_range" : 23,
+         "max_range" : 27,
+         "type" : "Suffix",
+         "modifier" : "Dexterity",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Panther",
+         "item_level" : 44,
+         "min_range" : 28,
+         "max_range" : 32,
+         "type" : "Suffix",
+         "modifier" : "Dexterity",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Leopard",
+         "item_level" : 55,
+         "min_range" : 33,
+         "max_range" : 37,
+         "type" : "Suffix",
+         "modifier" : "Dexterity",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Jaguar",
+         "item_level" : 66,
+         "min_range" : 38,
+         "max_range" : 42,
+         "type" : "Suffix",
+         "modifier" : "Dexterity",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Phantom",
+         "item_level" : 74,
+         "min_range" : 43,
+         "max_range" : 50,
+         "type" : "Suffix",
+         "modifier" : "Dexterity",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Wind",
+         "item_level" : 82,
+         "min_range" : 51,
+         "max_range" : 55,
+         "type" : "Suffix",
+         "modifier" : "Dexterity",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Pupil",
+         "item_level" : 1,
+         "min_range" : 8,
+         "max_range" : 12,
+         "type" : "Suffix",
+         "modifier" : "Intelligence",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Student",
+         "item_level" : 11,
+         "min_range" : 13,
+         "max_range" : 17,
+         "type" : "Suffix",
+         "modifier" : "Intelligence",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Prodigy",
+         "item_level" : 22,
+         "min_range" : 18,
+         "max_range" : 22,
+         "type" : "Suffix",
+         "modifier" : "Intelligence",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Augur",
+         "item_level" : 33,
+         "min_range" : 23,
+         "max_range" : 27,
+         "type" : "Suffix",
+         "modifier" : "Intelligence",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Philosopher",
+         "item_level" : 44,
+         "min_range" : 28,
+         "max_range" : 32,
+         "type" : "Suffix",
+         "modifier" : "Intelligence",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Sage",
+         "item_level" : 55,
+         "min_range" : 33,
+         "max_range" : 37,
+         "type" : "Suffix",
+         "modifier" : "Intelligence",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Savant",
+         "item_level" : 66,
+         "min_range" : 38,
+         "max_range" : 42,
+         "type" : "Suffix",
+         "modifier" : "Intelligence",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Virtuoso",
+         "item_level" : 74,
+         "min_range" : 43,
+         "max_range" : 50,
+         "type" : "Suffix",
+         "modifier" : "Intelligence",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      },
+      {
+         "name" : "of the Genius",
+         "item_level" : 82,
+         "min_range" : 51,
+         "max_range" : 55,
+         "type" : "Suffix",
+         "modifier" : "Intelligence",
+         "modifier_type" : "Flat",
+         "item_type" : "BodyArmour"
+      }
+   ]
+}
