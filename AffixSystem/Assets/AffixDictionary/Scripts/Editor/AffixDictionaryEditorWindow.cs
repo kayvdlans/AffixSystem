@@ -7,23 +7,29 @@ using UnityEngine;
 
 public class AffixDictionaryEditorWindow : EditorWindow
 {
-    private const string JSON_PATH = "Assets/AffixDictionary/Resources/affixes.json";
+    private struct ToggleGroup<T> where T : struct, IConvertible
+    {
+        public string Name;
+        public bool FoldGroup;
+        public bool[] Toggles;
 
+        public ToggleGroup(string name)
+        {
+            Name = name;
+            FoldGroup = false;
+            Toggles = new bool[Enum.GetValues(typeof(T)).Length];
+        }
+    }
+
+    private const string JSON_PATH = "Assets/AffixDictionary/Resources/affixes.json";
     Texture2D m_BackgroundTexture;
     string m_SearchResult = "";
     Vector2 m_SearchResultScrollbarPosition = Vector2.zero;
 
-    private bool m_FoldAffixType = false;
-    private bool[] m_AffixTypeToggles = new bool[Enum.GetValues(typeof(Affix.Type)).Length];
-
-    private bool m_FoldAffixModifier = false;
-    private bool[] m_AffixModifierToggles = new bool[9];
-
-    private bool m_FoldAffixModifierType = false;
-    private bool[] m_AffixModifierTypeToggles = new bool[Enum.GetValues(typeof(Affix.ModifierType)).Length];
-
-    private bool m_FoldItemType = false;
-    private bool[] m_ItemTypeToggles = new bool[Enum.GetValues(typeof(Item.Type)).Length];
+    ToggleGroup<Affix.Type> m_AffixTypeGroup = new ToggleGroup<Affix.Type>("Affix Type");
+    ToggleGroup<Affix.Modifier> m_AffixModifierGroup = new ToggleGroup<Affix.Modifier>("Affix Modifier");
+    ToggleGroup<Affix.ModifierType> m_AffixModifierTypeGroup = new ToggleGroup<Affix.ModifierType>("Affix Modifier Type");
+    ToggleGroup<Item.Type> m_ItemTypeGroup = new ToggleGroup<Item.Type>("Item Type");
 
     List<Affix> m_Affixes;
     List<Affix> m_SortedList;
@@ -95,14 +101,13 @@ public class AffixDictionaryEditorWindow : EditorWindow
         GUILayout.EndArea();
 
         GUILayout.BeginArea(new Rect(0, dividerHeight + 5, areaWidth * 2 - 2, position.height - dividerHeight - 5));
-
-        CreateFoldoutToggleGroup<Affix.Type>(ref m_FoldAffixType, "Affix Type", ref m_AffixTypeToggles);
+        CreateFoldoutToggleGroup<Affix.Type>(ref m_AffixTypeGroup.FoldGroup, m_AffixTypeGroup.Name, ref m_AffixTypeGroup.Toggles);
         EditorGUILayout.Space();
-        CreateFoldoutToggleGroup<Affix.Modifier>(ref m_FoldAffixModifier, "Affix Modifier", ref m_AffixModifierToggles);
+        CreateFoldoutToggleGroup<Affix.Modifier>(ref m_AffixModifierGroup.FoldGroup, m_AffixModifierGroup.Name, ref m_AffixModifierGroup.Toggles);
         EditorGUILayout.Space();
-        CreateFoldoutToggleGroup<Affix.ModifierType>(ref m_FoldAffixModifierType, "Affix Modifier Type", ref m_AffixModifierTypeToggles);
+        CreateFoldoutToggleGroup<Affix.ModifierType>(ref m_AffixModifierTypeGroup.FoldGroup, m_AffixModifierTypeGroup.Name, ref m_AffixModifierTypeGroup.Toggles);
         EditorGUILayout.Space();
-        CreateFoldoutToggleGroup<Item.Type>(ref m_FoldItemType, "Item Type", ref m_ItemTypeToggles);
+        CreateFoldoutToggleGroup<Item.Type>(ref m_ItemTypeGroup.FoldGroup, m_ItemTypeGroup.Name, ref m_ItemTypeGroup.Toggles);
         GUILayout.EndArea();
 
         GUILayout.BeginArea(new Rect(areaWidth * 2 - 1, dividerHeight, 1, position.height - dividerHeight));
@@ -123,19 +128,32 @@ public class AffixDictionaryEditorWindow : EditorWindow
         GUILayout.Box(GUIContent.none, GUIStyles.HorizontalLine, GUILayout.Width(areaWidth * 3 - 25), GUILayout.Height(1));
         EditorGUILayout.EndHorizontal();
         m_SearchResultScrollbarPosition = EditorGUILayout.BeginScrollView(m_SearchResultScrollbarPosition);
-        for (int i = 0; i < m_SortedList.Count; i++)
+        if (m_SortedList != null)
         {
-            Affix a = m_SortedList[i];
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(a.name, GUIStyles.SearchResultsLabel, GUILayout.Width(150), GUILayout.Height(20));
-            GUILayout.FlexibleSpace();
-            EditorGUILayout.LabelField(a.type.ToString(), GUIStyles.SearchResultsLabel, GUILayout.Width(75), GUILayout.Height(20));
-            GUILayout.FlexibleSpace();
-            EditorGUILayout.LabelField(a.modifier.ToString(), GUIStyles.SearchResultsLabel, GUILayout.Width(150), GUILayout.Height(20));
-            GUILayout.FlexibleSpace();
-            EditorGUILayout.EndHorizontal();
+            for (int i = 0; i < m_SortedList.Count; i++)
+            {
+                Affix a = m_SortedList[i];
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField(a.name, GUIStyles.SearchResultsLabel, GUILayout.Width(150), GUILayout.Height(20));
+                GUILayout.FlexibleSpace();
+                EditorGUILayout.LabelField(a.type.ToString(), GUIStyles.SearchResultsLabel, GUILayout.Width(75), GUILayout.Height(20));
+                GUILayout.FlexibleSpace();
+                EditorGUILayout.LabelField(a.modifier.ToString(), GUIStyles.SearchResultsLabel, GUILayout.Width(150), GUILayout.Height(20));
+                GUILayout.FlexibleSpace();
+                EditorGUILayout.EndHorizontal();
+            }
         }
         EditorGUILayout.EndScrollView();
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("Add new affix", GUILayout.Width((areaWidth * 3 - 2) / 2)))
+        {
+
+        }
+        if (GUILayout.Button("Remove selected affixes", GUILayout.Width((areaWidth * 3 - 2) / 2)))
+        {
+
+        }
+        EditorGUILayout.EndHorizontal();
         GUILayout.EndArea();
 
         GUILayout.BeginArea(new Rect(areaWidth * 2 + areaWidth * 3 + 1, dividerHeight, 1, position.height - dividerHeight));
@@ -150,7 +168,7 @@ public class AffixDictionaryEditorWindow : EditorWindow
             Debug.Log("Search results dirty! Gotta clean this mess!");
             m_SortedList = SortAffixesList();
         }
-
+        
     }
 
     [MenuItem("Window/Affixes/AffixDictionary")]
@@ -159,7 +177,7 @@ public class AffixDictionaryEditorWindow : EditorWindow
         GetWindow(typeof(AffixDictionaryEditorWindow));
     }
 
-    private void CreateFoldoutToggleGroup<T>(ref bool foldout, string name, ref bool[] toggles) where T : struct, IConvertible
+    public void CreateFoldoutToggleGroup<T>(ref bool foldout, string name, ref bool[] toggles) where T : struct, IConvertible
     {
         foldout = EditorGUILayout.Foldout(foldout, name, true);
         if (foldout)
@@ -249,10 +267,10 @@ public class AffixDictionaryEditorWindow : EditorWindow
     private List<Affix> SortAffixesList()
     {
         List<Affix> list = new List<Affix>();
-        List<Affix.Type> affixTypes = GetListOfSelectedEnumType<Affix.Type>(m_AffixTypeToggles);
-        List<Affix.Modifier> affixModifiers = GetListOfSelectedEnumType<Affix.Modifier>(m_AffixModifierToggles);
-        List<Affix.ModifierType> affixModifierTypes = GetListOfSelectedEnumType<Affix.ModifierType>(m_AffixModifierTypeToggles);
-        List<Item.Type> itemTypes = GetListOfSelectedEnumType<Item.Type>(m_ItemTypeToggles);
+        List<Affix.Type> affixTypes = GetListOfSelectedEnumType<Affix.Type>(m_AffixTypeGroup.Toggles);
+        List<Affix.Modifier> affixModifiers = GetListOfSelectedEnumType<Affix.Modifier>(m_AffixModifierGroup.Toggles);
+        List<Affix.ModifierType> affixModifierTypes = GetListOfSelectedEnumType<Affix.ModifierType>(m_AffixModifierTypeGroup.Toggles);
+        List<Item.Type> itemTypes = GetListOfSelectedEnumType<Item.Type>(m_ItemTypeGroup.Toggles);
 
         for (int i = 0; i < m_Affixes.Count; i++)
             if (AffixCompliesToList(m_Affixes[i].type, affixTypes) &&
@@ -261,7 +279,11 @@ public class AffixDictionaryEditorWindow : EditorWindow
                 AffixCompliesToList(m_Affixes[i].item_type, itemTypes))
                 list.Add(m_Affixes[i]);
 
-        list = FilterAffixesFromResult(GetListOfWordsFromSearch(m_SearchResult).ToArray(), list);
+        if (list != null && list.Count >= 2)
+        {
+            list = FilterAffixesFromResult(GetListOfWordsFromSearch(m_SearchResult).ToArray(), list);
+            list.Sort((a, b) => { return a.CompareTo(b); });
+        }
 
         SearchResultsDirty = false;
         return list;
