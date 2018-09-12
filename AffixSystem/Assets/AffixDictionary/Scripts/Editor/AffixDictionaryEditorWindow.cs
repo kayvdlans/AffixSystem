@@ -10,6 +10,17 @@ using UnityEngine;
 //TODO: Save the state of the editor window
 public class AffixDictionaryEditorWindow : EditorWindow
 {
+    private enum SelectionWindowState
+    {
+        Add,
+        Edit
+    }
+
+    /// <summary>
+    /// Instead of creating a million variables for each toggle button per enumeration
+    /// Create them automatically based on T. This way we don't have to repeat code as much.
+    /// </summary>
+    /// <typeparam name="T">The enumeration to create a toggle group from.</typeparam>
     private struct FilterToggleGroup<T> where T : struct, IConvertible
     {
         public string Name;
@@ -19,10 +30,12 @@ public class AffixDictionaryEditorWindow : EditorWindow
         public FilterToggleGroup(string name)
         {
             Name = name;
-            FoldGroup = false;
+            FoldGroup = true;
             Toggles = new bool[Enum.GetValues(typeof(T)).Length];
         }
     }
+
+    string editName;
 
     private const string JSON_PATH = "Assets/AffixDictionary/Resources/affixes.json";
     Texture2D m_BackgroundTexture;
@@ -40,21 +53,13 @@ public class AffixDictionaryEditorWindow : EditorWindow
 
     private bool SearchResultsDirty { get; set; }
 
-    private void OnGUI()
+    /// <summary>
+    /// Draw the search bar area in the top left corner of the window.
+    /// </summary>
+    /// <param name="areaWidth">The width of this area</param>
+    /// <param name="headerHeight">The height of this header</param>
+    private void DrawSearchBar(float areaWidth, float headerHeight)
     {
-        if (m_Affixes == null)
-            m_Affixes = LoadAffixListFromJsonFile(JSON_PATH);
-
-        float headerHeight = 30;
-        float areaWidth = position.width / 8;
-        float dividerHeight = headerHeight + 5;
-
-        m_BackgroundTexture = new Texture2D(1, 1, TextureFormat.RGBA32, false);
-        m_BackgroundTexture.SetPixel(0, 0, new Color(0.9f, 0.9f, 0.9f));
-        m_BackgroundTexture.Apply();
-
-        GUI.DrawTexture(new Rect(0, 0, position.width, dividerHeight), m_BackgroundTexture);
-
         GUILayout.BeginArea(new Rect(0, 0, areaWidth * 2 - 2, headerHeight));
         GUILayout.Space(5);
         EditorGUILayout.BeginHorizontal();
@@ -69,11 +74,15 @@ public class AffixDictionaryEditorWindow : EditorWindow
         EditorGUILayout.EndHorizontal();
         GUILayout.FlexibleSpace();
         GUILayout.EndArea();
+    }
 
-        GUILayout.BeginArea(new Rect(areaWidth * 2 - 1, 0, 1, dividerHeight));
-        GUILayout.Box(GUIContent.none, GUIStyles.VerticalLine, GUILayout.Height(dividerHeight));
-        GUILayout.EndArea();
-
+    /// <summary>
+    /// Draw the search results header top middle of the window.
+    /// </summary>
+    /// <param name="areaWidth">The width of this area</param>
+    /// <param name="headerHeight">The height of this header</param>
+    private void DrawSearchResultsHeader(float areaWidth, float headerHeight)
+    {
         GUILayout.BeginArea(new Rect(areaWidth * 2, 0, areaWidth * 3 - 2, headerHeight));
         EditorGUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
@@ -84,11 +93,15 @@ public class AffixDictionaryEditorWindow : EditorWindow
         GUILayout.FlexibleSpace();
         EditorGUILayout.EndHorizontal();
         GUILayout.EndArea();
+    }
 
-        GUILayout.BeginArea(new Rect(areaWidth * 2 + areaWidth * 3 + 1, 0, 1, dividerHeight));
-        GUILayout.Box(GUIContent.none, GUIStyles.VerticalLine, GUILayout.Height(dividerHeight));
-        GUILayout.EndArea();
-
+    /// <summary>
+    /// Draw the selection header top right of the window.
+    /// </summary>
+    /// <param name="areaWidth">The width of this area</param>
+    /// <param name="headerHeight">The height of this header</param>
+    private void DrawSelectionHeader(float areaWidth, float headerHeight)
+    {
         GUILayout.BeginArea(new Rect(areaWidth * 2 + areaWidth * 3 + 2, 0, areaWidth * 3 - 2, headerHeight));
         EditorGUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
@@ -99,11 +112,15 @@ public class AffixDictionaryEditorWindow : EditorWindow
         GUILayout.FlexibleSpace();
         EditorGUILayout.EndHorizontal();
         GUILayout.EndArea();
+    }
 
-        GUILayout.BeginArea(new Rect(0, dividerHeight, position.width, 1));
-        GUILayout.Box(GUIContent.none, GUIStyles.HorizontalLine, GUILayout.Width(position.width));
-        GUILayout.EndArea();
-
+    /// <summary>
+    /// Create toggle groups for each filter option and draw them
+    /// </summary>
+    /// <param name="areaWidth">The width of this area</param>
+    /// <param name="dividerHeight">The height of the divider between the heads and bodies</param>
+    private void DrawFilterOptions(float areaWidth, float dividerHeight)
+    {
         GUILayout.BeginArea(new Rect(0, dividerHeight + 5, areaWidth * 2 - 2, position.height - dividerHeight - 5));
         CreateFoldoutToggleGroup<Affix.Type>(ref m_AffixTypeGroup.FoldGroup, m_AffixTypeGroup.Name, ref m_AffixTypeGroup.Toggles);
         EditorGUILayout.Space();
@@ -113,12 +130,15 @@ public class AffixDictionaryEditorWindow : EditorWindow
         EditorGUILayout.Space();
         CreateFoldoutToggleGroup<Item.Type>(ref m_ItemTypeGroup.FoldGroup, m_ItemTypeGroup.Name, ref m_ItemTypeGroup.Toggles);
         GUILayout.EndArea();
+    }
 
-        GUILayout.BeginArea(new Rect(areaWidth * 2 - 1, dividerHeight, 1, position.height - dividerHeight));
-        GUILayout.Box(GUIContent.none, GUIStyles.VerticalLine, GUILayout.Height(position.height - dividerHeight));
-        GUILayout.EndArea();
-
-        GUILayout.BeginArea(new Rect(areaWidth * 2, dividerHeight + 5, areaWidth * 3 - 2, position.height - dividerHeight - 5));
+    /// <summary>
+    /// Create the search results area containing a sub-header and all the affixes added in a scrollview
+    /// </summary>
+    /// <param name="areaWidth">The width of this area/param>
+    private void DrawSearchResults(float areaWidth)
+    {
+        //Create the sub-header showing important information for the affixes
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("Name", GUIStyles.SearchResultsHeader, GUILayout.Width(150));
         GUILayout.FlexibleSpace();
@@ -131,6 +151,8 @@ public class AffixDictionaryEditorWindow : EditorWindow
         GUILayout.Space(5);
         GUILayout.Box(GUIContent.none, GUIStyles.HorizontalLine, GUILayout.Width(areaWidth * 3 - 25), GUILayout.Height(1));
         EditorGUILayout.EndHorizontal();
+
+        //Create a scrollview with all the affixes
         m_SearchResultScrollbarPosition = EditorGUILayout.BeginScrollView(m_SearchResultScrollbarPosition);
         if (m_SortedList != null && m_SortedListSelections != null && m_SortedList.Count != 0)
         {
@@ -148,13 +170,23 @@ public class AffixDictionaryEditorWindow : EditorWindow
             }
         }
         EditorGUILayout.EndScrollView();
+    }
+
+    /// <summary>
+    /// Draw the add and remove buttons below the search results scrollview
+    /// </summary>
+    /// <param name="areaWidth">The width of this area</param>
+    //  TODO: Delete from .json file and add functionality to new affix button
+    private void DrawAddRemoveButtons(float areaWidth)
+    {
         EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button("Add new affix", GUILayout.Width((areaWidth * 3 - 2) / 2)))
+        if (GUILayout.Button("Add new affix", GUILayout.Width((areaWidth * 3 - 2) / 2 - 4)))
         {
             //create new thing in selection window > press apply when done > create new affix > save state to json
         }
-        if (GUILayout.Button("Remove selected affixes", GUILayout.Width((areaWidth * 3 - 2) / 2)))
+        if (GUILayout.Button("Remove selected affixes", GUILayout.Width((areaWidth * 3 - 2) / 2 - 4)))
         {
+            //TODO: ALSO DELETE FROM .json FILE.
             for (int i = 0; i < m_SortedList.Count; i++)
             {
                 if (m_SortedListSelections[i])
@@ -170,17 +202,74 @@ public class AffixDictionaryEditorWindow : EditorWindow
                     }
                 }
             }
-
-            Debug.Log(m_Affixes.Count);
         }
         EditorGUILayout.EndHorizontal();
+    }
+
+    private void OnGUI()
+    { 
+        //If the list of affixes is not initialized yet, load it in from a .json file.
+        if (m_Affixes == null)
+            m_Affixes = LoadAffixListFromJsonFile(JSON_PATH);
+
+        float headerHeight = 30;
+        float areaWidth = position.width / 8;
+        float dividerHeight = headerHeight + 5;
+
+        //Create a texture representing the background.
+        m_BackgroundTexture = new Texture2D(1, 1, TextureFormat.RGBA32, false);
+        m_BackgroundTexture.SetPixel(0, 0, new Color(0.9f, 0.9f, 0.9f));
+        m_BackgroundTexture.Apply();
+
+        //Draw the background before anything else.
+        GUI.DrawTexture(new Rect(0, 0, position.width, dividerHeight), m_BackgroundTexture);
+
+        DrawSearchBar(areaWidth, headerHeight);
+
+        //Draw the divider between search bar and search results header
+        GUILayout.BeginArea(new Rect(areaWidth * 2 - 1, 0, 1, dividerHeight));
+        GUILayout.Box(GUIContent.none, GUIStyles.VerticalLine, GUILayout.Height(dividerHeight));
         GUILayout.EndArea();
 
+        DrawSearchResultsHeader(areaWidth, headerHeight);
+
+        //Draw the divider between search results header and selection header
+        GUILayout.BeginArea(new Rect(areaWidth * 2 + areaWidth * 3 + 1, 0, 1, dividerHeight));
+        GUILayout.Box(GUIContent.none, GUIStyles.VerticalLine, GUILayout.Height(dividerHeight));
+        GUILayout.EndArea();
+
+        DrawSelectionHeader(areaWidth, headerHeight);
+
+        //Draw the divider between the headers and the bodies
+        GUILayout.BeginArea(new Rect(0, dividerHeight, position.width, 1));
+        GUILayout.Box(GUIContent.none, GUIStyles.HorizontalLine, GUILayout.Width(position.width));
+        GUILayout.EndArea();
+
+        DrawFilterOptions(areaWidth, dividerHeight);
+
+        //Draw the divider between the filter options and the search results
+        GUILayout.BeginArea(new Rect(areaWidth * 2 - 1, dividerHeight, 1, position.height - dividerHeight));
+        GUILayout.Box(GUIContent.none, GUIStyles.VerticalLine, GUILayout.Height(position.height - dividerHeight));
+        GUILayout.EndArea();
+
+        //Draw search results body
+        GUILayout.BeginArea(new Rect(areaWidth * 2, dividerHeight + 5, areaWidth * 3 - 2, position.height - dividerHeight - 5));
+        DrawSearchResults(areaWidth);
+        DrawAddRemoveButtons(areaWidth);
+        GUILayout.EndArea();
+
+        //Draw the divider between the search results and selection
         GUILayout.BeginArea(new Rect(areaWidth * 2 + areaWidth * 3 + 1, dividerHeight, 1, position.height - dividerHeight));
         GUILayout.Box(GUIContent.none, GUIStyles.VerticalLine, GUILayout.Height(position.height - dividerHeight));
         GUILayout.EndArea();
 
         GUILayout.BeginArea(new Rect(areaWidth * 2 + areaWidth * 3 + 2, dividerHeight + 5, areaWidth * 3 - 2, position.height - dividerHeight - 5));
+
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("Name", GUIStyles.SearchResultsHeader, GUILayout.Width(75));
+        editName = EditorGUILayout.TextField(editName);
+        EditorGUILayout.EndHorizontal();
+
         GUILayout.EndArea();
 
         if (SearchResultsDirty)
@@ -219,6 +308,13 @@ public class AffixDictionaryEditorWindow : EditorWindow
         }
     }
 
+    /// <summary>
+    /// Create a list of values from enumeration T of which the toggles, which have been created earlier are selected.
+    /// This way we can filter out certain affixes which do not meet the criteria of the selected values.
+    /// </summary>
+    /// <typeparam name="T">The enumeration to get the values from</typeparam>
+    /// <param name="toggles">The toggles representing the enumeration values</param>
+    /// <returns>A list with the values of enumeration T which are selected in the filter options.</returns>
     private List<T> GetListOfSelectedEnumType<T>(bool[] toggles) where T : struct, IConvertible
     {
         List<T> list = new List<T>();
@@ -229,8 +325,17 @@ public class AffixDictionaryEditorWindow : EditorWindow
         return list;
     }
 
+    /// <summary>
+    /// Check whether a certain affix variable complies to a list of enumeration T. 
+    /// This way we can find out whether an affix should be shown based on filter option results.
+    /// </summary>
+    /// <typeparam name="T">The enumeration to check</typeparam>
+    /// <param name="affixVariable">The variable to check</param>
+    /// <param name="list">The list to check inside</param>
+    /// <returns></returns>
     private bool AffixCompliesToList<T>(T affixVariable, List<T> list) where T : struct, IConvertible
     {
+        //If none of the filter options of a certain category are selected just show all of the affixes
         if (list.Count == 0)
             return true;
 
@@ -243,6 +348,14 @@ public class AffixDictionaryEditorWindow : EditorWindow
         return false;
     }
 
+    /// <summary>
+    /// Finds an Affix's type, item_type, modifier or modifier_type in the .json file by searching for it by its name.
+    /// This is a temporary method, since the enums will be abolished at some point in time.
+    /// </summary>
+    /// <typeparam name="T">The enum that will be used to find its value</typeparam>
+    /// <param name="name">The name of the value inside the .json file</param>
+    /// <param name="o">the object to get the value from</param>
+    /// <returns>the enum value of the object</returns>
     private T GetAffixVariableByName<T>(string name, JSONObject o) where T : struct, IConvertible
     {
         Array t = Enum.GetValues(typeof(T));
@@ -254,6 +367,14 @@ public class AffixDictionaryEditorWindow : EditorWindow
         return (T)t.GetValue(0);
     }
 
+    /// <summary>
+    /// Instead of having to search things directly from a string, turn the string into a list of words,
+    /// which can then be easily checked if the affix contains all of the words. If words are not in a chronological order,
+    /// or if a certain word is left out in between, you will still be able to find the affix, because other words are 
+    /// included in the search result.
+    /// </summary>
+    /// <param name="result">The search result</param>
+    /// <returns>A list of words that were inside the search result</returns>
     private List<string> GetListOfWordsFromSearch(string result)
     {
         List<string> list = new List<string>();
@@ -287,11 +408,14 @@ public class AffixDictionaryEditorWindow : EditorWindow
     private List<Affix> SortAffixesList()
     {
         List<Affix> list = new List<Affix>();
+
+        //Get a list for each enumeration that contains the selected values in the filter options.
         List<Affix.Type> affixTypes = GetListOfSelectedEnumType<Affix.Type>(m_AffixTypeGroup.Toggles);
         List<Affix.Modifier> affixModifiers = GetListOfSelectedEnumType<Affix.Modifier>(m_AffixModifierGroup.Toggles);
         List<Affix.ModifierType> affixModifierTypes = GetListOfSelectedEnumType<Affix.ModifierType>(m_AffixModifierTypeGroup.Toggles);
         List<Item.Type> itemTypes = GetListOfSelectedEnumType<Item.Type>(m_ItemTypeGroup.Toggles);
 
+        //Check whether the enumerations of each affix comply to the lists defined earlier.
         for (int i = 0; i < m_Affixes.Count; i++)
             if (AffixCompliesToList(m_Affixes[i].type, affixTypes) &&
                 AffixCompliesToList(m_Affixes[i].modifier, affixModifiers) &&
@@ -299,6 +423,7 @@ public class AffixDictionaryEditorWindow : EditorWindow
                 AffixCompliesToList(m_Affixes[i].item_type, itemTypes))
                 list.Add(m_Affixes[i]);
 
+        //
         if (list != null && list.Count >= 2)
         {
             list = FilterAffixesFromResult(GetListOfWordsFromSearch(m_SearchResult).ToArray(), list);
