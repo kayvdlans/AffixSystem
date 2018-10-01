@@ -285,6 +285,9 @@ public class AffixDictionaryEditorWindow : EditorWindow
                 EditorGUILayout.LabelField("Name", GUIStyles.SearchResultsHeader, GUILayout.Width(75));
                 editName = EditorGUILayout.TextField(m_JustStartedEditing ? m_SelectedAffix.name : editName);
                 EditorGUILayout.EndHorizontal();
+                
+                //TODO: Change the different aspects of the affixes.
+                //TODO: Add a save / discard button idk
 
                 if (m_JustStartedEditing)
                     m_JustStartedEditing = false;
@@ -298,6 +301,7 @@ public class AffixDictionaryEditorWindow : EditorWindow
         else
         { 
             EditorGUILayout.LabelField("No Selected Affix", GUIStyles.NoSelectedAffixLabel, GUILayout.Height(position.height - dividerHeight - 5));
+            //SaveAffixListToJsonFile("Assets/AffixDictionary/Resources/affixestTEST.json");
         }
 
         GUILayout.EndArea();
@@ -488,6 +492,30 @@ public class AffixDictionaryEditorWindow : EditorWindow
         }
 
         return a;
+    }
+
+    private void SaveAffixListToJsonFile(string path)
+    {
+        JSONObject root = new JSONObject();
+        JSONArray objects = root["list"].AsArray;
+        for (int i = 0; i < m_Affixes.Count; i++)
+        {
+            Affix affix = m_Affixes[i];
+            JSONObject af = objects[-1].AsObject;
+            af["name"] = affix.name;
+            af["item_level"] = affix.item_level;
+            af["min_range"] = affix.min_amount;
+            af["max_range"] = affix.max_amount;
+            af["type"] = affix.type.ToString();
+            af["modifier"] = affix.modifier.ToString();
+            af["modifier_type"] = affix.modifier_type.ToString();
+            af["item_type"] = affix.item_type.ToString();
+        }
+
+        if (!File.Exists(path))
+            File.Create(path);
+        File.WriteAllText(path, root.ToString(4));
+        Debug.Log("Saved to " + path);
     }
 
     private List<Affix> LoadAffixListFromJsonFile(string path)
