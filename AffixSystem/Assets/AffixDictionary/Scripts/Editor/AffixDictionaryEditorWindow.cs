@@ -51,6 +51,11 @@ public class AffixDictionaryEditorWindow : EditorWindow
     List<Affix> m_SortedList;
     bool[] m_SortedListSelections;
 
+    int m_LastSelectionAmount = 0;
+    bool m_JustStartedEditing = false;
+    bool m_AffixIsSelected = false;
+    Affix m_SelectedAffix;
+
     private bool SearchResultsDirty { get; set; }
 
     /// <summary>
@@ -265,10 +270,35 @@ public class AffixDictionaryEditorWindow : EditorWindow
 
         GUILayout.BeginArea(new Rect(areaWidth * 2 + areaWidth * 3 + 2, dividerHeight + 5, areaWidth * 3 - 2, position.height - dividerHeight - 5));
 
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Name", GUIStyles.SearchResultsHeader, GUILayout.Width(75));
-        editName = EditorGUILayout.TextField(editName);
-        EditorGUILayout.EndHorizontal();
+        if (m_LastSelectionAmount != GetSelectedAffixCount())
+        {
+            m_JustStartedEditing = true;
+        }
+
+        m_LastSelectionAmount = GetSelectedAffixCount();
+
+        if (m_AffixIsSelected)
+        {
+            if (m_LastSelectionAmount == 1)
+            {
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("Name", GUIStyles.SearchResultsHeader, GUILayout.Width(75));
+                editName = EditorGUILayout.TextField(m_JustStartedEditing ? m_SelectedAffix.name : editName);
+                EditorGUILayout.EndHorizontal();
+
+                if (m_JustStartedEditing)
+                    m_JustStartedEditing = false;
+            }
+            else
+            {
+                m_AffixIsSelected = m_LastSelectionAmount == 0;
+                EditorGUILayout.LabelField("Multiple Affixes are Selected", GUIStyles.NoSelectedAffixLabel, GUILayout.Height(position.height - dividerHeight - 5));
+            }
+        }
+        else
+        { 
+            EditorGUILayout.LabelField("No Selected Affix", GUIStyles.NoSelectedAffixLabel, GUILayout.Height(position.height - dividerHeight - 5));
+        }
 
         GUILayout.EndArea();
 
@@ -489,6 +519,26 @@ public class AffixDictionaryEditorWindow : EditorWindow
         SearchResultsDirty = true;
         return list;
     }
+
+    private int GetSelectedAffixCount()
+    {
+        int count = 0;
+
+        if (m_SortedListSelections != null)
+        {
+            for (int i = 0; i < m_SortedListSelections.Length; i++)
+            {
+                if (m_SortedListSelections[i])
+                {
+                    m_SelectedAffix = m_SortedList[i];
+                    m_AffixIsSelected = true;
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
 }
 
 public static class GUIStyles
@@ -499,6 +549,7 @@ public static class GUIStyles
     private static GUIStyle m_TextField = null;
     private static GUIStyle m_SearchResultsHeader = null;
     private static GUIStyle m_SearchResultsLabel = null;
+    private static GUIStyle m_NoSelectedAffixLabel = null;
 
     static GUIStyles()
     {
@@ -530,6 +581,9 @@ public static class GUIStyles
         m_SearchResultsLabel.alignment = TextAnchor.UpperLeft;
         m_SearchResultsLabel.fontSize = 12;
 
+        m_NoSelectedAffixLabel = new GUIStyle("label");
+        m_NoSelectedAffixLabel.alignment = TextAnchor.MiddleCenter;
+        m_NoSelectedAffixLabel.fontSize = 20;
     }
 
     public static GUIStyle HorizontalLine
@@ -560,5 +614,10 @@ public static class GUIStyles
     public static GUIStyle SearchResultsLabel
     {
         get { return m_SearchResultsLabel; }
+    }
+
+    public static GUIStyle NoSelectedAffixLabel
+    {
+        get { return m_NoSelectedAffixLabel; }
     }
 }
